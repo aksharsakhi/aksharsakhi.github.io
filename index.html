@@ -3,431 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sheela Akshar Sakhi | Portfolio</title>
+    <title>Sheela Akshar Sakhi | AI Engineer & Developer</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <!-- Subtle Background Gradient -->
-    <div class="bg-gradient"></div>
+    
+    <!-- Full-Screen Overlay Menu -->
+    <div class="menu-overlay">
+        <div class="menu-close">CLOSE [X]</div>
+        <ul class="menu-links">
+            <li><a href="#home" class="menu-link" data-text="HOME">HOME</a></li>
+            <li><a href="#about" class="menu-link" data-text="SUMMARY">SUMMARY</a></li>
+            <li><a href="#experience" class="menu-link" data-text="EXPERIENCE">EXPERIENCE</a></li>
+            <li><a href="#projects" class="menu-link" data-text="PROJECTS">PROJECTS</a></li>
+            <li><a href="#education" class="menu-link" data-text="EDUCATION">EDUCATION</a></li>
+            <li><a href="#contact" class="menu-link" data-text="CONTACT">CONTACT</a></li>
+        </ul>
+    </div>
+    <div class="loader">
+        <div class="loader-text">INITIALIZING_EXPERIENCE</div>
+        <div class="loader-progress"></div>
+    </div>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-inner">
-            <a href="#home" class="nav-logo">SAS<span>.</span></a>
-            <ul class="nav-links">
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#achievements" class="nav-link">Achievements</a></li>
-                <li><a href="#contact" class="nav-cta">Contact</a></li>
-            </ul>
-            <button class="menu-toggle" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
+    <div id="webgl-container"></div>
+    <div class="cursor"></div>
+
+    <nav class="nav">
+        <div class="nav-brand">SAS.</div>
+        <div class="nav-status">STATUS: ONLINE <span class="blink"></span></div>
+        <div class="nav-menu">MENU</div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <span class="hero-eyebrow">B.Tech CSE • AI/ML • Builder</span>
-            <h1 class="hero-title">
-                Sheela<br><span class="accent">Akshar Sakhi</span>
-            </h1>
-            <p class="hero-subtitle">
-                Building innovative applications at the intersection of AI, web development, and real-world problem solving.
-            </p>
-            <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">View Projects <i class="fas fa-arrow-right"></i></a>
-                <a href="https://github.com/aksharsakhi" target="_blank" class="btn btn-secondary">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
-            </div>
+    <div id="smooth-wrapper">
+        <div id="smooth-content">
+
+            <!-- Hero Section -->
+            <section class="hero" id="home">
+                <div class="hero-titles">
+                    <h1 class="huge-title title-1">SHEELA</h1>
+                    <h1 class="huge-title title-2">AKSHAR SAKHI</h1>
+                </div>
+                
+                <div class="hero-bottom">
+                    <div class="role-text">
+                        AI ENGINEER<br>
+                        EDGE COMPUTING SPECIALIST<br>
+                        FULL-STACK DEVELOPER
+                    </div>
+                    <div class="scroll-down">
+                        <span>SCROLL TO EXPLORE</span>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Summary / Profile -->
+            <section class="about" id="about">
+                <div class="container">
+                    <div class="about-grid">
+                        <div class="about-text-content">
+                            <h2 class="section-heading">01 // SUMMARY</h2>
+                            <p class="large-body split-text">
+                                Results-driven Computer Science and Cybersecurity student with hands-on experience in software engineering, AI integration, and workflow automation. 
+                                Developed internal AI assistants (Astra, Rudra, Sara) and tracking systems at Tata Motors. 
+                                Skilled in full-stack development, network security, and edge computing with a history of hackathon successes.
+                            </p>
+                            
+                            <!-- Skills -->
+                            <div class="skills-container" style="margin-top: 40px;">
+                                <h3 style="font-family: var(--font-display); font-size: 1rem; letter-spacing: 2px; margin-bottom: 20px; color: var(--text-muted);">TECHNICAL ARSENAL</h3>
+                                <div class="tags">
+                                    <span>Python</span><span>Java</span><span>JavaScript</span><span>C++</span>
+                                    <span>Full Stack Dev</span><span>REST APIs</span><span>Workflow Automation</span>
+                                    <span>Network Security</span><span>Threat Modeling</span>
+                                    <span>Linux</span><span>Git</span><span>Burp Suite</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="about-visual">
+                            <img src="Passport size photos.jpg" id="profile-source" style="display: none;" crossorigin="anonymous">
+                            <div id="profile-webgl-target"></div>
+                            <div class="visual-bracket top-left"></div>
+                            <div class="visual-bracket bottom-right"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience -->
+            <section class="experience" id="experience">
+                <div class="container">
+                    <h2 class="section-heading">02 // EXPERIENCE</h2>
+                    
+                    <div class="project-list" style="gap: 5vh;">
+                        <div class="project-row" style="grid-template-columns: 1fr;">
+                            <div class="project-info" style="max-width: 100%;">
+                                <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px;">
+                                    <h3>Engineering Change Management (ECM) Intern</h3>
+                                    <span class="project-year" style="margin: 0;">2026 – Present</span>
+                                </div>
+                                <h4 style="font-family: var(--font-display); color: #ffffff; font-size: 1.5rem; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.3); margin-bottom: 20px;">TATA MOTORS LIMITED, INDIA</h4>
+                                <ul style="list-style-type: square; padding-left: 20px; line-height: 1.8; font-size: 1.1rem; color: #ccc;">
+                                    <li style="margin-bottom: 15px;">Automating engineering workflows and operational processes to improve efficiency, visibility, and reduce manual effort across teams.</li>
+                                    <li style="margin-bottom: 15px;">Developed internal AI assistants including <strong>Astra</strong>, <strong>Rudra</strong>, and <strong>Sara</strong> to support team members with information retrieval, workflow assistance, and productivity enhancement.</li>
+                                    <li style="margin-bottom: 15px;">Designed and developed a team performance monitoring application providing real-time visibility into project progress and operational metrics.</li>
+                                    <li style="margin-bottom: 15px;">Built an internal work allocation and tracking platform assisting team members with pending activities, priorities, assignments, and workflow status.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects -->
+            <section class="projects" id="projects">
+                <div class="container">
+                    <h2 class="section-heading">03 // PROJECTS</h2>
+                    
+                    <div class="project-list" style="gap: 8vh;">
+                        
+                        <div class="project-row" style="grid-template-columns: 1fr;">
+                            <div class="project-info" style="max-width: 100%;">
+                                <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px;">
+                                    <h3>NutriScan — Nutrition & Fitness App</h3>
+                                    <span class="project-year" style="margin: 0;">2025</span>
+                                </div>
+                                <ul style="list-style-type: square; padding-left: 20px; line-height: 1.8; font-size: 1.1rem; color: #ccc; margin-bottom: 20px;">
+                                    <li style="margin-bottom: 10px;">Developed an AI-powered nutrition analysis app using Open Food Facts API for ingredient and dietary analysis.</li>
+                                    <li style="margin-bottom: 10px;">Implemented personalized food recommendations based on health profiles and restrictions.</li>
+                                </ul>
+                                <div class="tags">
+                                    <span>Python</span><span>API Integration</span><span>HTML/CSS/JS</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-row" style="grid-template-columns: 1fr;">
+                            <div class="project-info" style="max-width: 100%;">
+                                <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px;">
+                                    <h3>Edge-Based V2X Emergency Response Protocol</h3>
+                                    <span class="project-year" style="margin: 0;">2025</span>
+                                </div>
+                                <ul style="list-style-type: square; padding-left: 20px; line-height: 1.8; font-size: 1.1rem; color: #ccc; margin-bottom: 20px;">
+                                    <li style="margin-bottom: 10px;">Built an edge-computing-enabled V2X system for emergency vehicle prioritization and automated green corridor creation.</li>
+                                    <li style="margin-bottom: 10px;">Implemented route prediction and real-time traffic workflow optimization reducing response times by 25%.</li>
+                                </ul>
+                                <div class="tags">
+                                    <span>Edge Computing</span><span>IoT</span><span>Smart Mobility</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-row" style="grid-template-columns: 1fr;">
+                            <div class="project-info" style="max-width: 100%;">
+                                <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 20px;">
+                                    <h3>PackTrack — Gamified Habit Tracker</h3>
+                                    <span class="project-year" style="margin: 0;">2023</span>
+                                </div>
+                                <ul style="list-style-type: square; padding-left: 20px; line-height: 1.8; font-size: 1.1rem; color: #ccc; margin-bottom: 20px;">
+                                    <li style="margin-bottom: 10px;">Designed a Pac-Man-inspired habit tracker with streaks, achievements, XP systems, and Google Calendar integration.</li>
+                                </ul>
+                                <div class="tags">
+                                    <span>JavaScript</span><span>Google Calendar API</span><span>Gamification</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education & Achievements (Grid Layout) -->
+            <section class="education-achievements" id="education" style="padding: 10vh 0;">
+                <div class="container">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5vw;">
+                        
+                        <!-- Education -->
+                        <div>
+                            <h2 class="section-heading" style="margin-bottom: 40px;">04 // EDUCATION</h2>
+                            <div style="margin-bottom: 40px;">
+                                <h3 style="font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 5px;">B.Tech CSE</h3>
+                                <p style="color: var(--text-muted); margin-bottom: 5px;">Amrita Vishwa Vidyapeetham, Coimbatore</p>
+                                <span style="font-size: 0.8rem; letter-spacing: 1px; color: #666;">AUG 2023 - PRESENT</span>
+                            </div>
+                            <div style="margin-bottom: 40px;">
+                                <h3 style="font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 5px;">Post Diploma in Cybersecurity</h3>
+                                <p style="color: var(--text-muted); margin-bottom: 5px;">National Academy of Cyber Security, India</p>
+                                <span style="font-size: 0.8rem; letter-spacing: 1px; color: #666;">JUN 2023 - MAY 2024</span>
+                            </div>
+                            <div style="margin-bottom: 40px;">
+                                <h3 style="font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 5px;">Diploma in Cybersecurity</h3>
+                                <p style="color: var(--text-muted); margin-bottom: 5px;">National Academy of Cyber Security, Coimbatore</p>
+                                <span style="font-size: 0.8rem; letter-spacing: 1px; color: #666;">SEP 2023 - FEB 2024</span>
+                            </div>
+                        </div>
+
+                        <!-- Achievements & Leadership -->
+                        <div>
+                            <h2 class="section-heading" style="margin-bottom: 40px;">05 // LEADERSHIP & ACCOLADES</h2>
+                            <ul style="list-style-type: square; padding-left: 20px; line-height: 2; font-size: 1.1rem; color: #ccc;">
+                                <li>Secured 3rd Place in the <strong>ValueHealth Hackathon</strong></li>
+                                <li>Participated in <strong>Smart India Hackathon (SIH)</strong> and HackToFuture</li>
+                                <li>Organized <strong>Gaming Ragnarok</strong> during Anokha Tech Fest 2024</li>
+                                <li>Served as <strong>Head of Cultural Activities</strong> for Gokulashtami 2025</li>
+                                <li>Participated in Gokulashtami Skit Performance 2024</li>
+                                <li>Completed PG Diploma in Cybersecurity from NACS</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Marquee Section -->
+            <section class="marquee-section">
+                <div class="marquee">
+                    <div class="marquee-inner">
+                        <span>INNOVATION REQUIRES DISRUPTION • INNOVATION REQUIRES DISRUPTION • </span>
+                        <span>INNOVATION REQUIRES DISRUPTION • INNOVATION REQUIRES DISRUPTION • </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="contact" id="contact">
+                <div class="container text-center">
+                    <h2 class="huge-title footer-title">LET'S TALK</h2>
+                    <div class="contact-links" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 50px;">
+                        <a href="tel:+918523066606" class="magnetic-btn">CALL</a>
+                        <a href="mailto:aksharsakhi@gmail.com" class="magnetic-btn">EMAIL</a>
+                        <a href="https://github.com/aksharsakhi" target="_blank" class="magnetic-btn">GITHUB</a>
+                        <a href="https://linkedin.com/in/aksharsakhi" target="_blank" class="magnetic-btn">LINKEDIN</a>
+                    </div>
+                    <div class="footer-bottom">
+                        <span>© 2026 SHEELA AKSHAR SAKHI</span>
+                        <span>OPERATING FROM COIMBATORE, INDIA</span>
+                    </div>
+                </div>
+            </section>
+
         </div>
-        <div class="scroll-hint">
-            <span>Scroll</span>
-            <div class="scroll-line"></div>
-        </div>
-    </section>
+    </div>
 
-    <!-- Skills Section -->
-    <section id="skills" class="section skills-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">Expertise</span>
-                <h2 class="section-title">Technical Skills</h2>
-            </div>
-            
-            <div class="skills-categories">
-                <div class="skill-category">
-                    <h3><i class="fas fa-code"></i> Programming</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Java</span>
-                        <span class="skill-tag">C++</span>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3><i class="fas fa-brain"></i> Machine Learning & Libraries</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Supervised Learning</span>
-                        <span class="skill-tag">Neural Networks (MLP)</span>
-                        <span class="skill-tag">CNN (basics)</span>
-                        <span class="skill-tag">Feature Engineering</span>
-                        <span class="skill-tag">Model Evaluation</span>
-                        <span class="skill-tag">NumPy</span>
-                        <span class="skill-tag">Pandas</span>
-                        <span class="skill-tag">Matplotlib</span>
-                        <span class="skill-tag">Scikit-learn</span>
-                        <span class="skill-tag">TensorFlow</span>
-                        <span class="skill-tag">PyTorch (basic)</span>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3><i class="fas fa-cloud"></i> Backend, Cloud & Automation</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Supabase</span>
-                        <span class="skill-tag">Firebase</span>
-                        <span class="skill-tag">n8n</span>
-                        <span class="skill-tag">OpenClaw</span>
-                        <span class="skill-tag">PicoClaw</span>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3><i class="fas fa-tools"></i> Tools & Platforms</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">Linux</span>
-                        <span class="skill-tag">Jupyter Notebook</span>
-                        <span class="skill-tag">Google Colab</span>
-                    </div>
-                </div>
-
-                <div class="skill-category" style="grid-column: span 2;">
-                    <h3><i class="fas fa-shield-alt"></i> Cybersecurity</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Network Security</span>
-                        <span class="skill-tag">Web Security</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Leadership -->
-            <div class="section-header" style="margin-top: 80px;">
-                <span class="section-label">Leadership</span>
-                <h2 class="section-title">Roles & Responsibilities</h2>
-            </div>
-            
-            <div class="leadership-grid">
-                <div class="leadership-card">
-                    <span class="year">2025</span>
-                    <h3>Head of Cultural Activities</h3>
-                    <p>Gokulashtami • Led cultural event planning and coordination</p>
-                </div>
-                <div class="leadership-card">
-                    <span class="year">2024</span>
-                    <h3>Event Organizer</h3>
-                    <p>Gaming Ragnarok – Anokha Tech Fest • Organized gaming competition</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="section projects-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">Portfolio</span>
-                <h2 class="section-title">Featured Projects</h2>
-            </div>
-            
-            <div class="projects-grid">
-                <!-- Featured Project -->
-                <div class="project-card featured">
-                    <div class="project-meta">
-                        <span class="project-badge">Featured</span>
-                        <span class="project-year">2025</span>
-                    </div>
-                    <h3 class="project-title">Smart V2X Emergency Response</h3>
-                    <p class="project-subtitle">Edge-Based Traffic Protocol</p>
-                    <p class="project-desc">
-                        Edge-powered V2X system reducing emergency response time by 25% through predictive routing and real-time traffic signal control.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">IoT</span>
-                        <span class="tech-tag">Edge Computing</span>
-                        <span class="tech-tag">Machine Learning</span>
-                        <span class="tech-tag">Real-time Systems</span>
-                    </div>
-                    <a href="https://github.com/23CSE362-edge-computing-2025-26-odd/capstone-project-12_powerrangers.git" target="_blank" class="project-link">
-                        View Code <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-meta">
-                        <span class="project-year">2024</span>
-                    </div>
-                    <h3 class="project-title">NutriScan</h3>
-                    <p class="project-subtitle">AI Nutrition Assistant</p>
-                    <p class="project-desc">
-                        AI-powered nutrition app with 85% accuracy in dietary recommendations. Reduced meal planning time by 60%.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">AI/ML</span>
-                        <span class="tech-tag">API</span>
-                    </div>
-                    <a href="https://github.com/aksharsakhi/NutriScan.git" target="_blank" class="project-link">
-                        View Code <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-meta">
-                        <span class="project-year">2024</span>
-                    </div>
-                    <h3 class="project-title">ArogyaDeskAI</h3>
-                    <p class="project-subtitle">Healthcare ML System</p>
-                    <p class="project-desc">
-                        Symptom-based disease prediction achieving 80% diagnostic accuracy with intuitive patient UI.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Machine Learning</span>
-                        <span class="tech-tag">Healthcare</span>
-                        <span class="tech-tag">UI/UX</span>
-                    </div>
-                    <a href="https://github.com/aksharsakhi/AROGYA_DESK.git" target="_blank" class="project-link">
-                        View Code <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-meta">
-                        <span class="project-year">2023</span>
-                    </div>
-                    <h3 class="project-title">PackTrack</h3>
-                    <p class="project-subtitle">Gamified Habit Tracker</p>
-                    <p class="project-desc">
-                        Pac-Man inspired habit tracker with 70% increase in user retention. Google Calendar integration.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">Gamification</span>
-                        <span class="tech-tag">API</span>
-                    </div>
-                    <a href="https://github.com/aksharsakhi/pac-track.git" target="_blank" class="project-link">
-                        View Code <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Achievements Section -->
-    <section id="achievements" class="section achievements-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">Recognition</span>
-                <h2 class="section-title">Hackathons & Awards</h2>
-            </div>
-            
-            <div class="achievements-list">
-                <div class="achievement-item">
-                    <div class="achievement-date">
-                        <span class="month">Mar</span>
-                        <span class="year">2025</span>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-badge">Top Performer</span>
-                        <h3>AGRIAI Hackathon</h3>
-                        <p class="org">IIIT Sri City</p>
-                        <p class="desc">Built a deep learning model achieving 80% accuracy in plant disease identification within 24 hours.</p>
-                    </div>
-                </div>
-
-                <div class="achievement-item">
-                    <div class="achievement-date">
-                        <span class="month">Feb</span>
-                        <span class="year">2024</span>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-badge">3rd Place</span>
-                        <h3>ValueHealth Hackathon</h3>
-                        <p class="org">Amrita Vishwa Vidyapeetham</p>
-                        <p class="desc">Developed ArogyaDeskAI for symptom-based disease prediction, recognized for innovation and impact.</p>
-                    </div>
-                </div>
-
-                <div class="achievement-item">
-                    <div class="achievement-date">
-                        <span class="month">—</span>
-                        <span class="year">2024</span>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-badge">Finalist</span>
-                        <h3>HackToFuture</h3>
-                        <p class="org">Tech Community</p>
-                        <p class="desc">Showcased innovative solutions and rapid problem-solving under tight time constraints.</p>
-                    </div>
-                </div>
-
-                <div class="achievement-item">
-                    <div class="achievement-date">
-                        <span class="month">—</span>
-                        <span class="year">2024</span>
-                    </div>
-                    <div class="achievement-content">
-                        <span class="achievement-badge">Participant</span>
-                        <h3>Smart India Hackathon (SIH)</h3>
-                        <p class="org">National Level</p>
-                        <p class="desc">Worked on smart traffic solutions addressing real-world government challenges.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Education Section -->
-    <section class="section education-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">Background</span>
-                <h2 class="section-title">Education</h2>
-            </div>
-            
-            <div class="education-grid">
-                <div class="edu-card">
-                    <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
-                    <h3>B.Tech CSE</h3>
-                    <p class="institution">Amrita Vishwa Vidyapeetham</p>
-                    <p class="duration">Aug 2023 – Present</p>
-                </div>
-
-                <div class="edu-card">
-                    <div class="edu-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h3>Post Diploma in Cybersecurity</h3>
-                    <p class="institution">National Academy of Cyber Security</p>
-                    <p class="duration">Jun 2023 – May 2024</p>
-                </div>
-
-                <div class="edu-card">
-                    <div class="edu-icon"><i class="fas fa-certificate"></i></div>
-                    <h3>Diploma in Cybersecurity</h3>
-                    <p class="institution">National Academy of Cyber Security</p>
-                    <p class="duration">Sep 2023 – Feb 2024</p>
-                </div>
-            </div>
-
-            <!-- Languages -->
-            <div class="section-header" style="margin-top: 64px;">
-                <span class="section-label">Communication</span>
-                <h2 class="section-title">Languages</h2>
-            </div>
-            <div class="languages-section">
-                <div class="language-row">
-                    <span class="language-name">English</span>
-                    <div class="language-level">
-                        <div class="level-bar"><div class="level-fill" style="width: 90%;"></div></div>
-                        <span class="level-text">Proficient</span>
-                    </div>
-                </div>
-                <div class="language-row">
-                    <span class="language-name">Hindi</span>
-                    <div class="language-level">
-                        <div class="level-bar"><div class="level-fill" style="width: 85%;"></div></div>
-                        <span class="level-text">Advanced</span>
-                    </div>
-                </div>
-                <div class="language-row">
-                    <span class="language-name">Telugu</span>
-                    <div class="language-level">
-                        <div class="level-bar"><div class="level-fill" style="width: 100%;"></div></div>
-                        <span class="level-text">Native</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section contact-section">
-        <div class="container">
-            <div class="contact-content">
-                <span class="section-label">Get in Touch</span>
-                <h2 class="contact-title">Let's Build Together</h2>
-                <p class="contact-subtitle">Open to internships, collaborations, and interesting projects.</p>
-                <a href="mailto:aksharsakhi@gmail.com" class="btn btn-primary">
-                    Say Hello <i class="fas fa-paper-plane"></i>
-                </a>
-                <div class="contact-links">
-                    <a href="https://github.com/aksharsakhi" target="_blank" class="contact-link" title="GitHub">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://linkedin.com/in/aksharsakhi" target="_blank" class="contact-link" title="LinkedIn">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="mailto:aksharsakhi@gmail.com" class="contact-link" title="Email">
-                        <i class="fas fa-envelope"></i>
-                    </a>
-                    <a href="tel:+918523066606" class="contact-link" title="Phone">
-                        <i class="fas fa-phone"></i>
-                    </a>
-                    <a href="https://wa.me/918523066606" target="_blank" class="contact-link" title="WhatsApp">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>© 2026 Sheela Akshar Sakhi. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile Menu Toggle
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        menuToggle?.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Scroll Animations
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.skill-category, .project-card, .achievement-item, .edu-card, .leadership-card').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const href = this.getAttribute('href');
-                if (href !== '#') {
-                    e.preventDefault();
-                    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-    </script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script src="js/main.js"></script>
 </body>
 </html>

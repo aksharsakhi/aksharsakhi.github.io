@@ -1,181 +1,364 @@
-// ===== Three.js 3D Particle System =====
-let scene, camera, renderer;
-let mouseX = 0, mouseY = 0;
-let windowHalfX = window.innerWidth / 2;
-let windowHalfY = window.innerHeight / 2;
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // --- 1. Custom Cursor ---
+    const cursor = document.querySelector('.cursor');
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let cursorX = mouseX;
+    let cursorY = mouseY;
+    
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    // Smooth cursor follow
+    const renderCursor = () => {
+        cursorX += (mouseX - cursorX) * 0.2;
+        cursorY += (mouseY - cursorY) * 0.2;
+        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
+        requestAnimationFrame(renderCursor);
+    };
+    renderCursor();
+    
+    // Cursor hover effects
+    const links = document.querySelectorAll('a, .magnetic-btn');
+    links.forEach(link => {
+        link.addEventListener('mouseenter', () => cursor.classList.add('active'));
+        link.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+    });
 
-init3D();
-animate3D();
-initMobileMenu();
-initScrollAnimations();
+    // --- 2. Magnetic Buttons ---
+    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', function(e) {
+            const position = btn.getBoundingClientRect();
+            const x = e.clientX - position.left - position.width / 2;
+            const y = e.clientY - position.top - position.height / 2;
+            
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+        });
+        btn.addEventListener('mouseout', function() {
+            btn.style.transform = `translate(0px, 0px)`;
+        });
+    });
 
-function init3D() {
-    const canvas = document.getElementById('canvas3d');
-    
-    scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0B0B0F, 0.0007);
-    
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3000);
-    camera.position.z = 1000;
-    
-    renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    
-    // Create particles
-    const geometry = new THREE.BufferGeometry();
-    const vertices = [];
-    
-    for (let i = 0; i < 2000; i++) {
-        const x = Math.random() * 2000 - 1000;
-        const y = Math.random() * 2000 - 1000;
-        const z = Math.random() * 2000 - 1000;
-        vertices.push(x, y, z);
+    // --- 2.5 Menu Toggle Logic ---
+    const menuBtn = document.querySelector('.nav-menu');
+    const menuOverlay = document.querySelector('.menu-overlay');
+    const menuCloseBtn = document.querySelector('.menu-close');
+    const menuLinks = document.querySelectorAll('.menu-link');
+
+    if (menuBtn && menuOverlay && menuCloseBtn) {
+        menuBtn.addEventListener('click', () => {
+            menuOverlay.classList.add('active');
+            // Hide custom cursor temporarily if it causes issues over the menu, or let it be
+        });
+
+        menuCloseBtn.addEventListener('click', () => {
+            menuOverlay.classList.remove('active');
+        });
+
+        // Close menu when a link is clicked
+        menuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                menuOverlay.classList.remove('active');
+                // Allow smooth scroll to handle the rest
+            });
+            // Add custom cursor hover effect for menu links
+            link.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            link.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+        
+        menuCloseBtn.addEventListener('mouseenter', () => cursor.classList.add('active'));
+        menuCloseBtn.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        menuBtn.addEventListener('mouseenter', () => cursor.classList.add('active'));
+        menuBtn.addEventListener('mouseleave', () => cursor.classList.remove('active'));
     }
-    
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    
-    // Orange/Amber themed particles
-    const colors = [
-        new THREE.Color(0xFF6A00), // Orange
-        new THREE.Color(0xFFA500), // Amber
-        new THREE.Color(0xFF8C00), // Dark Orange
-        new THREE.Color(0xFFB347), // Light Orange
-    ];
-    
-    window.particleSystems = [];
-    
-    colors.forEach((color, i) => {
-        const material = new THREE.PointsMaterial({
-            size: 1.5,
-            color,
+
+    // --- 3. Three.js Background Mesh (Big Space Theme) ---
+    const initBackgroundWebGL = () => {
+        const container = document.getElementById('webgl-container');
+        if (!container || typeof THREE === 'undefined') return;
+
+        const scene = new THREE.Scene();
+        // Add subtle fog to blend stars in the distance
+        scene.fog = new THREE.FogExp2(0x050505, 0.001);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // Create Star Particles
+        const starGeometry = new THREE.BufferGeometry();
+        const starCount = 2000;
+        const posArray = new Float32Array(starCount * 3);
+        const colorArray = new Float32Array(starCount * 3);
+
+        for(let i = 0; i < starCount * 3; i+=3) {
+            // Distribute stars spherically
+            const r = 800 * Math.cbrt(Math.random());
+            const theta = Math.random() * 2 * Math.PI;
+            const phi = Math.acos(2 * Math.random() - 1);
+            
+            posArray[i] = r * Math.sin(phi) * Math.cos(theta);
+            posArray[i+1] = r * Math.sin(phi) * Math.sin(theta);
+            posArray[i+2] = r * Math.cos(phi);
+
+            // Give stars different colors (mostly white/grey, very rare cyan/purple)
+            const mix = Math.random();
+            if (mix > 0.95) {
+                // Rare Cyan stars
+                colorArray[i] = 0.5; colorArray[i+1] = 0.94; colorArray[i+2] = 1.0;
+            } else if (mix > 0.90) {
+                // Rare Purple stars
+                colorArray[i] = 0.6; colorArray[i+1] = 0.4; colorArray[i+2] = 1.0;
+            } else {
+                // White/Grey stars (subtle)
+                const shade = 0.3 + Math.random() * 0.4;
+                colorArray[i] = shade; colorArray[i+1] = shade; colorArray[i+2] = shade;
+            }
+        }
+
+        starGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        starGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+        const starMaterial = new THREE.PointsMaterial({
+            size: 0.7,
+            vertexColors: true,
             transparent: true,
-            opacity: 0.4,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending,
             sizeAttenuation: true
         });
-        
-        const particles = new THREE.Points(geometry, material);
-        particles.rotation.x = Math.random() * Math.PI * 2;
-        particles.rotation.y = Math.random() * Math.PI * 2;
-        scene.add(particles);
-        window.particleSystems.push(particles);
-    });
-    
-    document.addEventListener('mousemove', onDocumentMouseMove);
-    window.addEventListener('resize', onWindowResize);
-}
 
-function onDocumentMouseMove(event) {
-    mouseX = (event.clientX - windowHalfX) * 0.2;
-    mouseY = (event.clientY - windowHalfY) * 0.2;
-}
+        const starMesh = new THREE.Points(starGeometry, starMaterial);
+        scene.add(starMesh);
 
-function onWindowResize() {
-    windowHalfX = window.innerWidth / 2;
-    windowHalfY = window.innerHeight / 2;
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
+        camera.position.z = 0;
 
-function animate3D() {
-    requestAnimationFrame(animate3D);
-    
-    if (window.particleSystems) {
-        window.particleSystems.forEach((system, i) => {
-            system.rotation.x += 0.00015 * (i + 1);
-            system.rotation.y += 0.0001 * (i + 1);
+        // Animation
+        const clock = new THREE.Clock();
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
             
-            // Smooth mouse follow
-            system.rotation.x += 0.00002 * (mouseY - system.rotation.x * 30);
-            system.rotation.y += 0.00002 * (mouseX - system.rotation.y * 30);
-        });
-    }
-    
-    renderer.render(scene, camera);
-}
+            // Slowly rotate the entire galaxy
+            starMesh.rotation.y = time * 0.005;
+            starMesh.rotation.x = time * 0.002;
+            
+            // Subtle camera parallax based on mouse
+            camera.position.x += ((mouseX / window.innerWidth - 0.5) * 20 - camera.position.x) * 0.02;
+            camera.position.y += (-(mouseY / window.innerHeight - 0.5) * 20 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
 
-// ===== Mobile Menu =====
-function initMobileMenu() {
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.classList.toggle('active');
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
-        
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuToggle.classList.remove('active');
+    };
+    initBackgroundWebGL();
+
+    // --- 4. WebGL Profile Image Displacement Shader ---
+    const initProfileWebGL = () => {
+        const targetContainer = document.getElementById('profile-webgl-target');
+        const imgSource = document.getElementById('profile-source');
+        if (!targetContainer || !imgSource || typeof THREE === 'undefined') return;
+
+        const scene = new THREE.Scene();
+        // Calculate aspect ratio of container
+        const rect = targetContainer.getBoundingClientRect();
+        const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+        camera.position.z = 1;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(rect.width, rect.height);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        targetContainer.appendChild(renderer.domElement);
+
+        // Wait for image to load to create texture
+        if (imgSource.complete) {
+            setupShader();
+        } else {
+            imgSource.onload = setupShader;
+        }
+
+        let material, plane;
+
+        function setupShader() {
+            const texture = new THREE.TextureLoader().load(imgSource.src);
+            
+            // Simple Noise implementation for shader
+            const vertexShader = `
+                varying vec2 vUv;
+                void main() {
+                    vUv = uv;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `;
+
+            const fragmentShader = `
+                uniform sampler2D uTexture;
+                uniform float uTime;
+                uniform vec2 uMouse;
+                varying vec2 vUv;
+
+                void main() {
+                    vec2 uv = vUv;
+                    
+                    // Distance from mouse
+                    float dist = distance(uv, uMouse);
+                    
+                    // Displacement effect
+                    float displacement = exp(-dist * 10.0) * 0.05 * sin(uTime * 5.0 + dist * 20.0);
+                    
+                    uv.x += displacement;
+                    uv.y += displacement;
+
+                    // RGB Shift
+                    float r = texture2D(uTexture, uv + vec2(displacement * 0.5, 0.0)).r;
+                    float g = texture2D(uTexture, uv).g;
+                    float b = texture2D(uTexture, uv - vec2(displacement * 0.5, 0.0)).b;
+                    
+                    // Desaturate slightly for aesthetic
+                    vec3 color = vec3(r, g, b);
+                    float gray = dot(color, vec3(0.299, 0.587, 0.114));
+                    color = mix(color, vec3(gray), 0.5);
+
+                    gl_FragColor = vec4(color, 1.0);
+                }
+            `;
+
+            material = new THREE.ShaderMaterial({
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader,
+                uniforms: {
+                    uTime: { value: 0 },
+                    uTexture: { value: texture },
+                    uMouse: { value: new THREE.Vector2(0.5, 0.5) }
+                }
             });
-        });
-    }
-}
 
-// ===== Scroll Animations =====
-function initScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
-                observer.unobserve(entry.target);
-            }
+            const geometry = new THREE.PlaneGeometry(2, 2);
+            plane = new THREE.Mesh(geometry, material);
+            scene.add(plane);
+
+            // Local mouse tracking for the image
+            targetContainer.addEventListener('mousemove', (e) => {
+                const bRect = targetContainer.getBoundingClientRect();
+                const x = (e.clientX - bRect.left) / bRect.width;
+                const y = 1.0 - ((e.clientY - bRect.top) / bRect.height);
+                gsap.to(material.uniforms.uMouse.value, { x: x, y: y, duration: 0.5 });
+            });
+            targetContainer.addEventListener('mouseleave', () => {
+                gsap.to(material.uniforms.uMouse.value, { x: 0.5, y: 0.5, duration: 1 });
+            });
+
+            const clock = new THREE.Clock();
+            const animateProfile = () => {
+                requestAnimationFrame(animateProfile);
+                material.uniforms.uTime.value = clock.getElapsedTime();
+                renderer.render(scene, camera);
+            };
+            animateProfile();
+        }
+
+        window.addEventListener('resize', () => {
+            const newRect = targetContainer.getBoundingClientRect();
+            renderer.setSize(newRect.width, newRect.height);
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    };
     
-    document.querySelectorAll('.skill-card, .interest-card, .project-card, .timeline-item, .edu-card, .language-item').forEach((el, i) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = `opacity 0.5s ease ${i * 0.03}s, transform 0.5s ease ${i * 0.03}s`;
-        observer.observe(el);
-    });
-}
+    // --- 5. GSAP Animations ---
+    if (typeof gsap !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
 
-// ===== Smooth Scroll =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href !== '#') {
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Loading Screen
+        const tlLoader = gsap.timeline();
+        tlLoader.to('.loader-progress', { opacity: 0, duration: 0.5, delay: 2 })
+                .to('.loader-text', { y: -20, opacity: 0, duration: 0.5 }, "-=0.3")
+                .to('.loader', { yPercent: -100, duration: 1, ease: "power4.inOut" })
+                .from('.nav', { y: -50, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.5")
+                .from('.title-1', { y: 100, opacity: 0, duration: 1, ease: "power4.out" }, "-=0.8")
+                .from('.title-2', { y: 100, opacity: 0, duration: 1, ease: "power4.out" }, "-=0.7")
+                .from('.hero-bottom', { y: 50, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.5")
+                .call(() => {
+                    initProfileWebGL(); // Init after load to ensure layout is settled
+                });
+
+        // Split text for About section manually
+        const textToSplit = document.querySelector('.split-text');
+        if (textToSplit) {
+            const text = textToSplit.innerText;
+            textToSplit.innerHTML = text.split(' ').map(word => `<span style="display:inline-block; overflow:hidden;"><span class="word-inner" style="display:inline-block;">${word}</span></span>`).join(' ');
+            
+            gsap.from('.word-inner', {
+                scrollTrigger: {
+                    trigger: '.about',
+                    start: 'top 60%',
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.02,
+                ease: 'power3.out'
+            });
+        }
+
+        // Project Text Reveals
+        const projects = document.querySelectorAll('.project-row');
+        projects.forEach(project => {
+            const info = project.querySelector('.project-info');
+            if (info) {
+                gsap.from(info, {
+                    scrollTrigger: {
+                        trigger: project,
+                        start: 'top 70%'
+                    },
+                    x: -50, opacity: 0, duration: 1, ease: "power3.out"
+                });
             }
-        }
-    });
-});
+        });
 
-// ===== Navbar Effect =====
-const navbar = document.querySelector('.navbar');
+        // Image Reveals & Parallax (works for both Projects and Concept Visuals)
+        const imageWraps = document.querySelectorAll('.project-image-wrap');
+        imageWraps.forEach(wrap => {
+            const reveal = wrap.querySelector('.image-reveal');
+            const img = wrap.querySelector('.parallax-img');
+            
+            if (reveal && img) {
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: wrap,
+                        start: 'top 80%'
+                    }
+                });
 
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 100) {
-        navbar.style.background = 'rgba(11, 11, 15, 0.95)';
-        navbar.style.boxShadow = '0 4px 30px rgba(255, 106, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(11, 11, 15, 0.6)';
-        navbar.style.boxShadow = 'none';
+                tl.to(reveal, { scaleY: 0, duration: 1, ease: "power4.inOut" })
+                  .from(img, { scale: 1.2, duration: 1.5, ease: "power3.out" }, "-=1");
+                  
+                // Parallax effect
+                gsap.to(img, {
+                    yPercent: 15,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: wrap,
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: true
+                    }
+                });
+            }
+        });
     }
+
 });
-
-// ===== Fade-in Style =====
-const style = document.createElement('style');
-style.textContent = `.fade-in { opacity: 1 !important; transform: translateY(0) !important; }`;
-document.head.appendChild(style);
-
-// ===== Hero Parallax =====
-const heroContent = document.querySelector('.hero-content');
-if (heroContent) {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        if (scrolled < window.innerHeight) {
-            heroContent.style.transform = `translateY(${scrolled * 0.25}px)`;
-            heroContent.style.opacity = 1 - (scrolled / window.innerHeight);
-        }
-    });
-}
-
-console.log('Portfolio loaded successfully! 🚀');
