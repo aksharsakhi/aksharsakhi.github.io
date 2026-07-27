@@ -1,31 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // --- 1. Custom Cursor ---
-    const cursor = document.querySelector('.cursor');
+    // --- 1. Mouse Position Tracking (for WebGL Parallax) ---
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    let cursorX = mouseX;
-    let cursorY = mouseY;
     
     window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-    });
-    
-    // Smooth cursor follow
-    const renderCursor = () => {
-        cursorX += (mouseX - cursorX) * 0.2;
-        cursorY += (mouseY - cursorY) * 0.2;
-        cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
-        requestAnimationFrame(renderCursor);
-    };
-    renderCursor();
-    
-    // Cursor hover effects
-    const links = document.querySelectorAll('a, .magnetic-btn');
-    links.forEach(link => {
-        link.addEventListener('mouseenter', () => cursor.classList.add('active'));
-        link.addEventListener('mouseleave', () => cursor.classList.remove('active'));
     });
 
     // --- 2. Magnetic Buttons ---
@@ -52,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (menuBtn && menuOverlay && menuCloseBtn) {
         menuBtn.addEventListener('click', () => {
             menuOverlay.classList.add('active');
-            // Hide custom cursor temporarily if it causes issues over the menu, or let it be
         });
 
         menuCloseBtn.addEventListener('click', () => {
@@ -63,17 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
         menuLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 menuOverlay.classList.remove('active');
-                // Allow smooth scroll to handle the rest
             });
-            // Add custom cursor hover effect for menu links
-            link.addEventListener('mouseenter', () => cursor.classList.add('active'));
-            link.addEventListener('mouseleave', () => cursor.classList.remove('active'));
         });
-        
-        menuCloseBtn.addEventListener('mouseenter', () => cursor.classList.add('active'));
-        menuCloseBtn.addEventListener('mouseleave', () => cursor.classList.remove('active'));
-        menuBtn.addEventListener('mouseenter', () => cursor.classList.add('active'));
-        menuBtn.addEventListener('mouseleave', () => cursor.classList.remove('active'));
     }
 
     // --- 3. Three.js Background Mesh (Big Space Theme) ---
