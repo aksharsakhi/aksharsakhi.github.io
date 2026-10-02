@@ -1,7 +1,6 @@
 .DS_Store
 *.swp
 *~
-referenes/
-referenes /
-hero_portrait_studio.jpg
-image_without_background_original.png
+references/
+assets/images/hero_portrait_studio.jpg
+assets/images/image_without_background_original.png
